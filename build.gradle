@@ -1,0 +1,67 @@
+
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id "com.gradle.plugin-publish"
+    id 'org.unbroken-dome.test-sets'
+}
+
+
+group = 'com.github.tinsep19'
+version = '0.0.1'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+ext {
+    defaultEncoding = "UTF-8"
+}
+
+repositories {
+    mavenCentral()
+}
+
+testSets {
+    integrationTest
+    acceptanceTest
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    testImplementation('org.spockframework:spock-core:1.3-groovy-2.5') {
+        exclude group: "org.codehaus.groovy", module: "groovy"
+    }
+    acceptanceTestImplementation gradleTestKit()
+}
+
+gradlePlugin {
+    plugins {
+        tomcatDistributionPlugin {
+            id = 'com.github.tinsep19.tomcat-dist'
+            implementationClass = 'com.github.tinsep19.tomcatdist.TomcatDistributionPlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/tinsep19/gradle-tomcat-dist-plugin'
+    vcsUrl = 'https://github.com/tinsep19/gradle-tomcat-dist-plugin'
+    description = 'Launch Tomcat distribution using CATALINA_BASE, CATALINA_HOME, JAVA_HOME'
+    plugins {
+        tomcatDistributionPlugin {
+            displayName = 'Tomcat Distribution Gradle Plugin'
+            description = 'Launch Tomcat distribution using CATALINA_BASE, CATALINA_HOME, JAVA_HOME'
+            tags = ['tomcat', 'distribution']
+            version = project.version
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = project.ext.defaultEncoding
+}
+
+tasks.withType(ProcessResources) {
+    filteringCharset = project.ext.defaultEncoding
+}
