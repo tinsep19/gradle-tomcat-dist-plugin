@@ -6,7 +6,6 @@ plugins {
     id 'org.unbroken-dome.test-sets'
 }
 
-
 group = 'com.github.tinsep19'
 version = '0.0.1'
 
