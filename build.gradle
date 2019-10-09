@@ -4,15 +4,15 @@ plugins {
     id 'java-gradle-plugin'
     id "com.gradle.plugin-publish"
     id 'org.unbroken-dome.test-sets'
+    id 'maven-publish'
 }
 
 group = 'com.github.tinsep19'
 version = '0.0.1'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
 ext {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
     defaultEncoding = "UTF-8"
 }
 
@@ -58,9 +58,22 @@ pluginBundle {
 }
 
 tasks.withType(JavaCompile) {
-    options.encoding = project.ext.defaultEncoding
+    options.encoding = project.defaultEncoding
 }
 
 tasks.withType(ProcessResources) {
-    filteringCharset = project.ext.defaultEncoding
+    filteringCharset = project.defaultEncoding
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/tinsep19/gradle-tomcat-dist-plugin")
+            credentials {
+                username = System.getenv("GITHUB_USER")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
