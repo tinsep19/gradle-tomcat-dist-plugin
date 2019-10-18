@@ -82,3 +82,10 @@ publishing {
         }
     }
 }
+afterEvaluate {
+    publishing.publications.withType(MavenPublication) {
+        pom {
+            scm { url = "https://maven.pkg.github.com/tinsep19/gradle-tomcat-dist-plugin" }
+        }
+    }
+}
