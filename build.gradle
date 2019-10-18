@@ -5,10 +5,15 @@ plugins {
     id "com.gradle.plugin-publish"
     id 'org.unbroken-dome.test-sets'
     id 'maven-publish'
+    id 'org.ajoberstar.grgit'
 }
 
-group = 'com.github.tinsep19'
-version = '0.0.1'
+group = "com.github.tinsep19"
+version = "0.0.1"
+
+if (!project.grgit.status().clean) {
+    version = "${version}-${project.grgit.head().abbreviatedId}"
+}
 
 ext {
     sourceCompatibility = JavaVersion.VERSION_1_8
