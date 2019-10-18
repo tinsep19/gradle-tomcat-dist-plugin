@@ -12,7 +12,7 @@ group = "com.github.tinsep19"
 version = "0.0.1"
 
 if (!project.grgit.status().clean) {
-    version = "${version}-${project.grgit.head().abbreviatedId}"
+    version = "${version}.${project.grgit.head().abbreviatedId}"
 }
 
 ext {
@@ -85,7 +85,7 @@ publishing {
 afterEvaluate {
     publishing.publications.withType(MavenPublication) {
         pom {
-            scm { url = "https://maven.pkg.github.com/tinsep19/gradle-tomcat-dist-plugin" }
+            scm { url = "https://github.com/tinsep19/gradle-tomcat-dist-plugin/packages" }
         }
     }
 }
